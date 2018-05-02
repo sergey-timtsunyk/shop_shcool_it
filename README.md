@@ -1,72 +1,41 @@
 Symfony Standard Edition
 ========================
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony
-application that you can use as the skeleton for your new applications.
+Устанавливаем [Symfony 3.4][1], используем composer, указываем версию "3.4".
+ 
+Для работы с пользователями подключаем [FOSUserBundle][2]. Для упращение 
+работы с записями о пользователе можно использовать [команды][3]. Подменяем при 
+необходимости [шаблоны][4].
 
-For details on how to download and get started with Symfony, see the
-[Installation][1] chapter of the Symfony Documentation.
+Добавляем необходимые сущности в коде:
 
-What's inside?
---------------
+`php bin/console doctrine:generate:entity`
 
-The Symfony Standard Edition is configured with the following defaults:
+К сущностям добвяем связи: [mapping][5]
 
-  * An AppBundle you can use to start coding;
+Обновляем базу данных:
 
-  * Twig as the only configured template engine;
+`php bin/console doctrine:schema:update --force`
 
-  * Doctrine ORM/DBAL;
+Следующим шагом настраиваем админку.
 
-  * Swiftmailer;
+Создаем AdminBundle и добавляем настройки для сервиса: [extension][6]
 
-  * Annotations enabled for everything.
+Устанавливаем [SonataAdminBundle][7] и [SonataDoctrineORMAdminBundle][8]
 
-It comes pre-configured with the following bundles:
+Следующей командой продключаем наши сущности в админку:
 
-  * **FrameworkBundle** - The core Symfony framework bundle
+`php bin/console sonata:admin:generate`
 
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
+Детально о настройках и возможностях [SonataAdminBundle-doc][9]
 
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
-
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
-
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
-
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
-
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
-
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
-
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
-
-  * [**SensioGeneratorBundle**][13] (in dev env) - Adds code generation
-    capabilities
-
-  * [**WebServerBundle**][14] (in dev env) - Adds commands for running applications
-    using the PHP built-in web server
-
-  * **DebugBundle** (in dev/test env) - Adds Debug and VarDumper component
-    integration
-
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
-
-Enjoy!
 
 [1]:  https://symfony.com/doc/3.4/setup.html
-[6]:  https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  https://symfony.com/doc/3.4/doctrine.html
-[8]:  https://symfony.com/doc/3.4/templating.html
-[9]:  https://symfony.com/doc/3.4/security.html
-[10]: https://symfony.com/doc/3.4/email.html
-[11]: https://symfony.com/doc/3.4/logging.html
-[13]: https://symfony.com/doc/current/bundles/SensioGeneratorBundle/index.html
-[14]: https://symfony.com/doc/current/setup/built_in_web_server.html
+[2]:  https://symfony.com/doc/master/bundles/FOSUserBundle/index.htm
+[3]:  https://symfony.com/doc/master/bundles/FOSUserBundle/command_line_tools.html
+[4]:  https://symfony.com/doc/master/bundles/FOSUserBundle/overriding_templates.html
+[5]:  https://www.doctrine-project.org/projects/doctrine-orm/en/2.5/reference/association-mapping.html
+[6]: https://symfony.com/doc/current/bundles/extension.html
+[7]: https://symfony.com/doc/master/bundles/SonataAdminBundle/getting_started/installation.html
+[8]: https://sonata-project.org/bundles/doctrine-orm-admin/master/doc/reference/installation.html
+[9]: https://sonata-project.org/bundles/admin/3-x/doc/index.html
