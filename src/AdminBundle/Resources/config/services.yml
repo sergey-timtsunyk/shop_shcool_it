@@ -1,0 +1,7 @@
+services:
+    admin.admin.brand:
+        class: AdminBundle\Admin\BrandAdmin
+        arguments: [~, AppBundle\Entity\Brand, AdminBundle:BrandAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Brand }
+        public: true
