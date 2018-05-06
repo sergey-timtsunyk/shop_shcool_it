@@ -10,13 +10,19 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class CategoryAdmin extends AbstractAdmin
 {
+    public function createQuery($context = 'list')
+    {
+        $query = parent::createQuery($context);
+        $query->orderBy($query->getRootAliases()[0] . '.parent', 'ASC');
+
+        return $query;
+    }
     /**
      * @param DatagridMapper $datagridMapper
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-           // ->add('id')
             ->add('name')
             ->add('parent')
         ;
