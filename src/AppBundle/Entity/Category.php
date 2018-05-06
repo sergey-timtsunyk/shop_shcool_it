@@ -131,5 +131,13 @@ class Category
     {
         return $this->children;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name ?: '';
+    }
 }
 
