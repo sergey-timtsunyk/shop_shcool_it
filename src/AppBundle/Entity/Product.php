@@ -38,6 +38,14 @@ class Product
     private $category;
 
     /**
+     * @var PropertyValue[]
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\PropertyValue", inversedBy="products")
+     * @ORM\JoinTable(name="product_property_values")
+     */
+    private $propertyValues;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
