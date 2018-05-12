@@ -13,7 +13,6 @@ class CategoryAdmin extends AbstractAdmin
     public function createQuery($context = 'list')
     {
         $query = parent::createQuery($context);
-        $query->orderBy($query->getRootAliases()[0] . '.parent', 'ASC');
 
         return $query;
     }
