@@ -3,12 +3,33 @@ services:
         class: AdminBundle\Admin\BrandAdmin
         arguments: [~, AppBundle\Entity\Brand, AdminBundle:BrandAdmin]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: Brand }
+            - { name: sonata.admin, manager_type: orm, group: product, label: Brand }
         public: true
 
     admin.admin.category:
         class: AdminBundle\Admin\CategoryAdmin
         arguments: [~, AppBundle\Entity\Category, AdminBundle:CategoryAdmin]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: Category }
+            - { name: sonata.admin, manager_type: orm, group: product, label: Category }
+        public: true
+
+    admin.admin.property:
+        class: AdminBundle\Admin\PropertyAdmin
+        arguments: [~, AppBundle\Entity\Property, AdminBundle:PropertyAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: product, label: Property }
+        public: true
+
+    admin.admin.property_value:
+        class: AdminBundle\Admin\PropertyValueAdmin
+        arguments: [~, AppBundle\Entity\PropertyValue, AdminBundle:PropertyValueAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: product, label: PropertyValue }
+        public: true
+
+    admin.admin.product:
+        class: AdminBundle\Admin\ProductAdmin
+        arguments: [~, AppBundle\Entity\Product, AdminBundle:ProductAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: product, label: Product }
         public: true

@@ -2,7 +2,7 @@
 
 namespace AdminBundle\Admin;
 
-use AppBundle\Entity\Brand;
+use AppBundle\Entity\Product;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -10,7 +10,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
-class BrandAdmin extends AbstractAdmin
+class ProductAdmin extends AbstractAdmin
 {
     /**
      * @param DatagridMapper $datagridMapper
@@ -18,7 +18,10 @@ class BrandAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('category')
             ->add('name')
+            ->add('count')
+            ->add('price')
         ;
     }
 
@@ -29,8 +32,12 @@ class BrandAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('id')
+            ->add('category')
             ->add('name')
+            ->add('code')
             ->add('description')
+            ->add('count')
+            ->add('price')
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),
@@ -46,16 +53,21 @@ class BrandAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
-        /** @var Brand $brand */
-        $brand = $this->getSubject();
-        $fullPath = '/'.Brand::SERVER_PATH_TO_IMAGE_FOLDER.'/'.$brand->getImage();
+        /** @var Product $product */
+        $product = $this->getSubject();
+        $fullPath = '/'.Product::SERVER_PATH_TO_IMAGE_FOLDER.'/'.$product->getImage();
 
         $formMapper
+            ->add('category')
             ->add('name')
+            ->add('code')
             ->add('description')
+            ->add('count')
+            ->add('price')
+            ->add('propertyValues', 'sonata_type_model', ['multiple' => true, 'property' => 'value'])
             ->add('file', FileType::class, [
                 'required' => false,
-                'help' => '<img src="'.$fullPath.'" class="admin-preview" />'
+                'help' => '<img height="200" src="'.$fullPath.'" class="admin-preview" />'
             ])
         ;
     }
@@ -68,34 +80,36 @@ class BrandAdmin extends AbstractAdmin
         $showMapper
             ->add('id')
             ->add('name')
+            ->add('code')
             ->add('description')
-            ->add('image', null)
+            ->add('count')
+            ->add('price')
         ;
     }
 
     /**
-     * @param Brand $brand
+     * @param Product $product
      */
-    public function prePersist($brand)
+    public function prePersist($product)
     {
-        $this->manageFileUpload($brand);
+        $this->manageFileUpload($product);
     }
 
     /**
-     * @param Brand $brand
+     * @param Product $product
      */
-    public function preUpdate($brand)
+    public function preUpdate($product)
     {
-        $this->manageFileUpload($brand);
+        $this->manageFileUpload($product);
     }
 
     /**
-     * @param Brand $brand
+     * @param Product $product
      */
-    private function manageFileUpload($brand)
+    private function manageFileUpload($product)
     {
-        if ($brand->getFile()) {
-            $brand->upload();
+        if ($product->getFile()) {
+            $product->upload();
         }
     }
 }

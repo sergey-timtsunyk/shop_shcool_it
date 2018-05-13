@@ -2,6 +2,7 @@
 
 namespace AdminBundle\Admin;
 
+use AppBundle\Entity\Category;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -36,6 +37,7 @@ class CategoryAdmin extends AbstractAdmin
             ->add('id')
             ->add('name')
             ->add('parent')
+            ->add('properties', 'entity')
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),
@@ -61,7 +63,8 @@ class CategoryAdmin extends AbstractAdmin
             ->add('parent', 'sonata_type_model', [
                 'required' => false,
                 'query' => $queryBuilder
-                ]);
+                ])
+            ->add('properties')
         ;
     }
 
@@ -74,6 +77,34 @@ class CategoryAdmin extends AbstractAdmin
             ->add('id')
             ->add('name')
             ->add('parent')
+            ->add('properties', 'entity', ['associated_property' => 'name'])
         ;
+    }
+
+    /**
+     * @param Category $category
+     */
+    public function prePersist($category)
+    {
+        $this->updateProperties($category);
+    }
+
+    /**
+     * @param Category $category
+     */
+    public function preUpdate($category)
+    {
+        $this->updateProperties($category);
+    }
+
+    /**
+     * @param Category $category
+     */
+    private function updateProperties(Category $category)
+    {
+        foreach ($category->getProperties() as $property) {
+            $property->getCategories()->removeElement($category);
+            $property->addCategory($category);
+        }
     }
 }

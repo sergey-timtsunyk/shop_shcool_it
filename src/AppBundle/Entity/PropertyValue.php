@@ -31,7 +31,7 @@ class PropertyValue
     /**
      * @var Property
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PropertyValue", inversedBy="property")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Property", inversedBy="propertyValues")
      * @ORM\JoinColumn(name="property_id", referencedColumnName="id")
      */
     private $property;
@@ -77,6 +77,41 @@ class PropertyValue
         return $this->value;
     }
 
+    /**
+     * @return Property
+     */
+    public function getProperty()
+    {
+        return $this->property;
+    }
 
+    /**
+     * @return Product[]
+     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
+
+    /**
+     * @param Property $property
+     */
+    public function setProperty($property)
+    {
+        $this->property = $property;
+    }
+
+    /**
+     * @param Product[] $products
+     */
+    public function setProducts($products)
+    {
+        $this->products = $products;
+    }
+
+    public function __toString()
+    {
+        return $this->value ?: '';
+    }
 }
 

@@ -170,6 +170,7 @@ class Brand
     {
         $this->file = $file;
     }
+
     /**
      * Manages the copying of the file to the relevant place on the server
      *

@@ -51,6 +51,13 @@ class Category
     private $products;
 
     /**
+     * @var Property[]
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Property", mappedBy="categories")
+     */
+    private $properties;
+
+    /**
      * Get id
      *
      * @return int
@@ -130,6 +137,38 @@ class Category
     public function getChildren()
     {
         return $this->children;
+    }
+
+    /**
+     * @return Product[]
+     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
+
+    /**
+     * @param Product[] $products
+     */
+    public function setProducts($products)
+    {
+        $this->products = $products;
+    }
+
+    /**
+     * @return Property[]
+     */
+    public function getProperties()
+    {
+        return $this->properties;
+    }
+
+    /**
+     * @param Property[] $properties
+     */
+    public function setProperties($properties)
+    {
+        $this->properties = $properties;
     }
 
     /**

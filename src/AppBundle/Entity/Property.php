@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,6 +28,14 @@ class Property
      * @ORM\Column(name="name", type="string", length=50)
      */
     private $name;
+
+    /**
+     * @var Category[]
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Category", inversedBy="properties")
+     * @ORM\JoinTable(name="property_to_category")
+     */
+    private $categories;
 
     /**
      * @var PropertyValue[]
@@ -67,6 +76,39 @@ class Property
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return ArrayCollection|Category[]
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * @param Category $category
+     * @return mixed
+     */
+    public function addCategory($category)
+    {
+        return $this->categories[] = $category;
+    }
+
+    /**
+     * @return PropertyValue[]
+     */
+    public function getPropertyValues()
+    {
+        return $this->propertyValues;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name ?: '';
     }
 }
 

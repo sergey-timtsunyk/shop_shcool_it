@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Product
@@ -12,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Product
 {
+    const SERVER_PATH_TO_IMAGE_FOLDER = 'images/product';
     /**
      * @var int
      *
@@ -41,7 +43,7 @@ class Product
      * @var PropertyValue[]
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\PropertyValue", inversedBy="products")
-     * @ORM\JoinTable(name="product_property_values")
+     * @ORM\JoinTable(name="product_to_property_values")
      */
     private $propertyValues;
 
@@ -86,6 +88,11 @@ class Product
      * @ORM\Column(name="image", type="string", length=255)
      */
     private $image;
+
+    /**
+     * @var UploadedFile
+     */
+    private $file;
 
     /**
      * Get id
@@ -247,5 +254,84 @@ class Product
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * @return PropertyValue[]
+     */
+    public function getPropertyValues()
+    {
+        return $this->propertyValues;
+    }
+
+    /**
+     * @param PropertyValue[] $propertyValues
+     */
+    public function setPropertyValues($propertyValues)
+    {
+        $this->propertyValues = $propertyValues;
+    }
+
+    /**
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param UploadedFile $file
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * Manages the copying of the file to the relevant place on the server
+     *
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function upload()
+    {
+        // the file property can be empty if the field is not required
+        if (null === $this->getFile()) {
+            return;
+        }
+
+        // we use the original file name here but you should
+        // sanitize it at least to avoid any security issues
+
+        // move takes the target directory and target filename as params
+        $this->deleteOldImage($this->getImage());
+
+        $newNameFile = md5($this->getFile()->getPathname()) .
+            '_' . time() .
+            '.' .$this->getFile()->getClientOriginalExtension();
+
+        $this->getFile()->move(
+            self::SERVER_PATH_TO_IMAGE_FOLDER,
+            $newNameFile
+        );
+
+        // set the path property to the filename where you've saved the file
+        $this->image = $newNameFile;
+
+        // clean up the file property as you won't need it anymore
+        $this->setFile(null);
+    }
+
+    /**
+     * @param $name
+     */
+    private function deleteOldImage($name)
+    {
+        $fullPath = self::SERVER_PATH_TO_IMAGE_FOLDER.'/'.$name;
+
+        if (!empty($name) && file_exists($fullPath)) {
+            @unlink($fullPath);
+        }
     }
 }
