@@ -1,0 +1,21 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+        <nav class="navbar navbar-default navbar-static-top">
+            {{ include('@App/menu.html.twig') }}
+        </nav>
+        <div class="container">
+            <div class="col-md-2">
+                {{ include('@App/filters.html.twig') }}
+            </div>
+            <div class="col-md-10">
+                {% block main %}{% endblock %}
+            </div>
+        </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body { background: #F5F5F5; font: 18px/1.5 sans-serif; }
+    </style>
+{% endblock %}

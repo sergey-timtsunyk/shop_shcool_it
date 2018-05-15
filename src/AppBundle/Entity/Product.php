@@ -288,6 +288,11 @@ class Product
         $this->file = $file;
     }
 
+    public function getFullPathImage()
+    {
+        return self::SERVER_PATH_TO_IMAGE_FOLDER.'/'.$this->image;
+    }
+
     /**
      * Manages the copying of the file to the relevant place on the server
      *

@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Shop</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="{{ path('homepage') }}">Shop</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li class="{% if app.request.get('_route') == 'homepage' %}active{% endif %}">
+                <a href="{{ path('homepage') }}">Home</a>
+            </li>
+            <li class="{% if app.request.get('_route') == 'products' %}active{% endif %}">
+                <a href="{{ path('products') }}">Products</a>
+            </li>
+            <li class="{% if app.request.get('_route') == 'about' %}active{% endif %}">
+                <a href="{{ path('about') }}">About</a>
+            </li>
+            <li class="{% if app.request.get('_route') == 'contact' %}active{% endif %}">
+                <a href="{{ path('contact') }}">Contact</a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="{% if app.request.get('_route') == 'order' %}active{% endif %}">
+                {% set basket = app.session.get('basket') %}
+                <a href="{{ path('order') }}">Your basket: <span id="count-product">{{ basket|length }}</span></a>
+            </li>
+        </ul>
+    </div><!--/.nav-collapse -->
+</div>

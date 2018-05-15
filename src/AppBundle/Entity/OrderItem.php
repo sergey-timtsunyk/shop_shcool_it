@@ -24,7 +24,8 @@ class OrderItem
     /**
      * @var int
      *
-     * @ORM\Column(name="product", type="integer")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      */
     private $product;
 
@@ -63,11 +64,11 @@ class OrderItem
     /**
      * Set product
      *
-     * @param integer $product
+     * @param Product $product
      *
      * @return OrderItem
      */
-    public function setProduct($product)
+    public function setProduct(Product $product)
     {
         $this->product = $product;
 
@@ -130,6 +131,22 @@ class OrderItem
     public function getPrice()
     {
         return $this->price;
+    }
+
+    /**
+     * @return Order
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param Order $order
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
     }
 }
 

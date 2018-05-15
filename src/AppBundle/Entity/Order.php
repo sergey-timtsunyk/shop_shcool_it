@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Order
  *
- * @ORM\Table(name="order")
+ * @ORM\Table(name="order_product")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\OrderRepository")
  */
 class Order
@@ -59,14 +59,14 @@ class Order
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="doneAt", type="datetime")
+     * @ORM\Column(name="doneAt", type="datetime", nullable=true)
      */
     private $doneAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="confirmAt", type="datetime")
+     * @ORM\Column(name="confirmAt", type="datetime", nullable=true)
      */
     private $confirmAt;
 
@@ -222,6 +222,15 @@ class Order
     public function getConfirmAt()
     {
         return $this->confirmAt;
+    }
+
+    /**
+     * @param OrderItem $orderItem
+     */
+    public function addItem($orderItem)
+    {
+        $orderItem->setOrder($this);
+        $this->items[] = $orderItem;
     }
 }
 

@@ -1,0 +1,28 @@
+{% extends '@App/main.html.twig' %}
+
+{% block main %}
+
+    {% for product in products %}
+        <div class="col-md-7 product" style="background-color: #eeeeee; padding: 15px; margin: 10px">
+            <img height="50" src="{{ product.fullPathImage }}">
+            <span>{{ product.name }}</span>
+            <div>{{ product.price|e }}</div>
+            <button class="btn btn-outline remove" data-action="{{ path('remove_product', {'id': product.id}) }}">Remove!</button>
+        </div>
+    {% endfor %}
+
+    <div  class="col-md-7" style="background-color: #ca77a9;  padding: 15px; margin: 10px">
+        <input class="info" name="sum" id="sum" value="{{ sum|e }}" readonly/>
+    </div>
+
+    <div  class="col-md-7">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/basket.js') }}"></script>
+{% endblock %}
